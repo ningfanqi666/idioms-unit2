@@ -54,24 +54,6 @@
     }
     .tab-btn.active { background: var(--primary); color: #ffffff; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); transform: translateY(-2px); }
 
-    /* Image Upload Banner */
-    .upload-banner {
-      background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-      border: 2px dashed #6366f1; border-radius: var(--border-radius);
-      padding: 20px; text-align: center; margin-bottom: 30px;
-      box-shadow: var(--shadow);
-    }
-    .upload-banner h3 { color: #312e81; margin-bottom: 8px; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
-    .upload-banner p { font-size: 0.9rem; color: #4338ca; margin-bottom: 14px; }
-    .upload-btn-label {
-      background: var(--primary); color: white; padding: 10px 22px; border-radius: 30px;
-      font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
-      transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-    }
-    .upload-btn-label:hover { background: var(--primary-hover); transform: scale(1.03); }
-    #image-input { display: none; }
-    .upload-status { margin-top: 10px; font-size: 0.85rem; font-weight: 700; color: #15803d; }
-
     /* Card Grid (Stage 1) */
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
 
@@ -120,10 +102,10 @@
     .btn-flip { background: #f3f4f6; color: #374151; }
     .btn-flip:hover { background: #e5e7eb; }
 
-    /* Card Back Details (Image) - 🌟 關鍵修復處 */
+    /* Card Back Details (Image) */
     .card-back { transform: rotateY(180deg); background: #0f172a; color: white; padding: 16px; text-align: center; }
     .img-wrapper { width: 100%; height: 350px; border-radius: 14px; overflow: hidden; background: #0f172a; display: flex; align-items: center; justify-content: center; position: relative; }
-    .img-wrapper img { width: 100%; height: 100%; object-fit: contain; } /* ✅ 此處改為 contain 保證圖片完整顯示 */
+    .img-wrapper img { width: 100%; height: 100%; object-fit: contain; }
     .back-title { margin-top: 12px; font-size: 1.2rem; font-weight: 700; color: #f8fafc; }
 
     /* Workbook Section (Stage 2) */
@@ -176,8 +158,6 @@
 
     <!-- STAGE 1: CARD GALLERY -->
     <div id="stage-1">
-     
-
       <div class="cards-grid" id="cards-container"></div>
     </div>
 
@@ -204,17 +184,18 @@
   </main>
 
   <script>
+    // 自動調用同層目錄下的 1.png ~ 10.png 圖片
     const IDIOMS = [
-      { id: 1, name: "琳琅滿目", tag: "褒", tagType: "bao", meaning: "滿眼都是美好潔白的玉石。形容物品很多，種類繁多，令人目不暇給。", example: "姐姐被商店裏琳琅滿目的貨品吸引住。", tip: "", 1.png: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500" },
-      { id: 2, name: "鳳毛麟角", tag: "褒", tagType: "bao", meaning: "比喻稀少罕見、珍貴難得的人才或事物。", example: "在現今的香港，還懂得傳統紙紮技藝的師傅已是鳳毛麟角。\n收藏在台北故宮博物院的翠玉白菜珍品，在古代藝術品中是鳳毛麟角。", tip: "", 2.png: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=500" },
-      { id: 3, name: "碩果僅存", tag: "中性", tagType: "zhong", meaning: "唯一殘存下來的大果實。比喻唯一仍然存在的人或事物。", example: "建於1930年的油麻地戲院，是香港碩果僅存的戰前戲院。\n他是這項非物質文化遺產碩果僅存的傳承人。", tip: "", 3.png: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500" },
-      { id: 4, name: "集腋成裘", tag: "中性", tagType: "zhong", meaning: "狐狸腋下的皮毛雖然不多，但是聚集起來就能縫製成一件皮衣。比喻積少成多。", example: "學習需要積累，集腋成裘，相信你能取得理想的成績。", tip: "💡 字言字語：「裘」指皮衣，粵音是「球」。", 4.png: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500" },
-      { id: 5, name: "曇花一現", tag: "中性", tagType: "zhong", meaning: "比喻美好的事物或景象一出現便很快消失。", example: "中秋節，我在戶外賞月，可是明亮耀眼的月亮只是曇花一現，就被厚厚的雲層遮擋住了。\n這景色太美了，就算只是曇花一現，我也會把它牢牢記住。", tip: "💡 字言字語：曇花是一種只會在夜間開花的植物，開花時間僅約三小時。「曇」粵音「談」。", 5.png: "https://images.unsplash.com/photo-1508615070457-7baeba4003ab?w=500" },
-      { id: 6, name: "瑕不掩瑜", tag: "褒", tagType: "bao", meaning: "玉上面雖然有斑點，但掩蓋不了其本身的光澤。比喻事物雖然有缺點，卻掩蓋不了其優點，無損整體的完美。", example: "這幅畫雖然有些瑕疵，但整體構圖和用色都很好，瑕不掩瑜，還是好作品。", tip: "", 6.png: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=500" },
-      { id: 7, name: "良莠不齊", tag: "貶", tagType: "bian", meaning: "形容好的壞的混雜在一起，素質參差。", example: "特賣場的貨物品質良莠不齊，你一定要小心挑選。\n因為學生的程度良莠不齊，學校於是按程度分班，讓老師因材施教。", tip: "", 7.png: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500" },
-      { id: 8, name: "一丘之貉", tag: "貶", tagType: "bian", meaning: "同一個山丘上的貉。比喻彼此同樣低劣，沒有差別。", example: "這幫騙子都是一丘之貉，你千萬不要上他們的當。\n你們是一丘之貉，我不會再相信你們。", tip: "💡 字言字語：貉是一種形似狐狸的獸，粵音是「學」。", 8.png: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef9?w=500" },
-      { id: 9, name: "聲名狼藉", tag: "貶", tagType: "bian", meaning: "比喻聲望和名譽非常惡劣，敗壞到極點。", example: "這位富家公子虐打妻兒，在城中早已聲名狼藉。", tip: "", 9.png: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=500" },
-      { id: 10, name: "昭然若揭", tag: "中性", tagType: "zhong", meaning: "本指如同高舉着日、月般明白顯露。後形容真相完全暴露，一切都清楚明白。", example: "經過警方仔細調查後，案件的真相已昭然若揭，罪犯將受到應有的懲罰。\n他偷竊的過程全被監控錄像拍攝下來了，罪行昭然若揭。", tip: "", 10.png: "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?w=500" }
+      { id: 1, name: "琳琅滿目", tag: "褒", tagType: "bao", meaning: "滿眼都是美好潔白的玉石。形容物品很多，種類繁多，令人目不暇給。", example: "姐姐被商店裏琳琅滿目的貨品吸引住。", tip: "", fallbackImg: "1.png" },
+      { id: 2, name: "鳳毛麟角", tag: "褒", tagType: "bao", meaning: "比喻稀少罕見、珍貴難得的人才或事物。", example: "在現今的香港，還懂得傳統紙紮技藝的師傅已是鳳毛麟角。\n收藏在台北故宮博物院的翠玉白菜珍品，在古代藝術品中是鳳毛麟角。", tip: "", fallbackImg: "2.png" },
+      { id: 3, name: "碩果僅存", tag: "中性", tagType: "zhong", meaning: "唯一殘存下來的大果實。比喻唯一仍然存在的人或事物。", example: "建於1930年的油麻地戲院，是香港碩果僅存的戰前戲院。\n他是這項非物質文化遺產碩果僅存的傳承人。", tip: "", fallbackImg: "3.png" },
+      { id: 4, name: "集腋成裘", tag: "中性", tagType: "zhong", meaning: "狐狸腋下的皮毛雖然不多，但是聚集起來就能縫製成一件皮衣。比喻積少成多。", example: "學習需要積累，集腋成裘，相信你能取得理想的成績。", tip: "💡 字言字語：「裘」指皮衣，粵音是「球」。", fallbackImg: "4.png" },
+      { id: 5, name: "曇花一現", tag: "中性", tagType: "zhong", meaning: "比喻美好的事物或景象一出現便很快消失。", example: "中秋節，我在戶外賞月，可是明亮耀眼的月亮只是曇花一現，就被厚厚的雲層遮擋住了。\n這景色太美了，就算只是曇花一現，我也會把它牢牢記住。", tip: "💡 字言字語：曇花是一種只會在夜間開花的植物，開花時間僅約三小時。「曇」粵音「談」。", fallbackImg: "5.png" },
+      { id: 6, name: "瑕不掩瑜", tag: "褒", tagType: "bao", meaning: "玉上面雖然有斑點，但掩蓋不了其本身的光澤。比喻事物雖然有缺點，卻掩蓋不了其優點，無損整體的完美。", example: "這幅畫雖然有些瑕疵，但整體構圖和用色都很好，瑕不掩瑜，還是好作品。", tip: "", fallbackImg: "6.png" },
+      { id: 7, name: "良莠不齊", tag: "貶", tagType: "bian", meaning: "形容好的壞的混雜在一起，素質參差。", example: "特賣場的貨物品質良莠不齊，你一定要小心挑選。\n因為學生的程度良莠不齊，學校於是按程度分班，讓老師因材施教。", tip: "", fallbackImg: "7.png" },
+      { id: 8, name: "一丘之貉", tag: "貶", tagType: "bian", meaning: "同一個山丘上的貉。比喻彼此同樣低劣，沒有差別。", example: "這幫騙子都是一丘之貉，你千萬不要上他們的當。\n你們是一丘之貉，我不會再相信你們。", tip: "💡 字言字語：貉是一種形似狐狸的獸，粵音是「學」。", fallbackImg: "8.png" },
+      { id: 9, name: "聲名狼藉", tag: "貶", tagType: "bian", meaning: "比喻聲望和名譽非常惡劣，敗壞到極點。", example: "這位富家公子虐打妻兒，在城中早已聲名狼藉。", tip: "", fallbackImg: "9.png" },
+      { id: 10, name: "昭然若揭", tag: "中性", tagType: "zhong", meaning: "本指如同高舉着日、月般明白顯露。後形容真相完全暴露，一切都清楚明白。", example: "經過警方仔細調查後，案件的真相已昭然若揭，罪犯將受到應有的懲罰。\n他偷竊的過程全被監控錄像拍攝下來了，罪行昭然若揭。", tip: "", fallbackImg: "10.png" }
     ];
 
     const WORKBOOK_PRACTICE = [
@@ -243,50 +224,11 @@
       QUIZ_BANK.push({...base});
     }
 
-    let db;
-    function initDB() {
-      return new Promise((resolve, reject) => {
-        let request = indexedDB.open("IdiomsImageDB", 1);
-        request.onupgradeneeded = e => {
-          let db = e.target.result;
-          if (!db.objectStoreNames.contains("images")) {
-            db.createObjectStore("images", { keyPath: "id" });
-          }
-        };
-        request.onsuccess = e => {
-          db = e.target.result;
-          resolve(db);
-        };
-        request.onerror = e => reject(e);
-      });
-    }
-
-    async function saveImageToDB(id, dataUrl) {
-      if(!db) await initDB();
-      let tx = db.transaction("images", "readwrite");
-      let store = tx.objectStore("images");
-      store.put({ id: id, data: dataUrl });
-    }
-
-    async function getImageFromDB(id) {
-      if(!db) await initDB();
-      return new Promise(resolve => {
-        let tx = db.transaction("images", "readonly");
-        let store = tx.objectStore("images");
-        let req = store.get(id);
-        req.onsuccess = () => resolve(req.result ? req.result.data : null);
-        req.onerror = () => resolve(null);
-      });
-    }
-
-    async function renderCards() {
+    function renderCards() {
       const container = document.getElementById("cards-container");
       container.innerHTML = "";
 
       for (let item of IDIOMS) {
-        let userImg = await getImageFromDB(item.id);
-        let imgSrc = userImg ? userImg : item.fallbackImg;
-
         let tagClass = item.tagType === 'bao' ? 'tag-bao' : item.tagType === 'bian' ? 'tag-bian' : 'tag-zhong';
         
         let cardHTML = `
@@ -310,7 +252,7 @@
 
               <div class="card-back">
                 <div class="img-wrapper">
-                  <img src="${imgSrc}" alt="${item.name}" id="img-elem-${item.id}">
+                  <img src="${item.fallbackImg}" alt="${item.name}" id="img-elem-${item.id}">
                 </div>
                 <div class="back-title">${item.name}</div>
                 <button class="action-btn btn-flip" style="margin-top: 10px;" onclick="toggleFlip(${item.id})">🔄 返回文字解釋</button>
@@ -355,35 +297,6 @@
       } else {
         alert("您的瀏覽器不支援語音朗讀功能。");
       }
-    }
-
-    async function handleImageUpload(event) {
-      const files = event.target.files;
-      if (!files.length) return;
-
-      let count = 0;
-      for (let file of files) {
-        let match = file.name.match(/(\d+)/);
-        if (match) {
-          let num = parseInt(match[1]);
-          if (num >= 1 && num <= 10) {
-            let dataUrl = await readFileAsDataURL(file);
-            await saveImageToDB(num, dataUrl);
-            count++;
-          }
-        }
-      }
-      
-      document.getElementById("upload-status").innerText = `✅ 成功儲存 ${count} 張圖片！已被瀏覽器永久記住。`;
-      renderCards();
-    }
-
-    function readFileAsDataURL(file) {
-      return new Promise(resolve => {
-        let reader = new FileReader();
-        reader.onload = e => resolve(e.target.result);
-        reader.readAsDataURL(file);
-      });
     }
 
     function switchStage(stageNum) {
@@ -485,8 +398,7 @@
       showNextQuizQuestion();
     }
 
-    window.onload = async () => {
-      await initDB();
+    window.onload = () => {
       renderCards();
       renderWorkbookPractice();
     };
